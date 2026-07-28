@@ -16,15 +16,16 @@ describe('Login', () => {
     cy.get('[data-test="username"]').type('invalid_user');
     cy.get('[data-test="password"]').type('invalid_password');
     cy.get('[data-test="login-button"]').click();
-    //assert
-    cy.get('[data-test="error"]').should('be.visible');
+   //Assert: Validates error message visibility and ensures the text matches the expected HTML content
+    cy.get('[data-test="error"]') 
+    .should('contain', 'Username and password do not match any user in this service');
   })
   it('should not login with empty credentials', () => {
     //arrange
     cy.visit('https://www.saucedemo.com/');
     //act
     cy.get('[data-test="login-button"]').click();
-    //assert
+    //Assert: Checks only if the error message is displayed, without verifying its text.
     cy.get('[data-test="error"]').should('be.visible');
   })
   it('should not login with only username', () => {
