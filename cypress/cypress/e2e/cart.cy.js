@@ -2,7 +2,7 @@ describe('Cart Tests', () => {
   beforeEach(() => {
     // arrange (global setup)
     cy.visit('https://www.saucedemo.com/');
-    cy.get('[data-test="username"]').type('standard_user');
+    cy.get('[data-test="username"]').type('problem_user');
     cy.get('[data-test="password"]').type('secret_sauce');
     cy.get('[data-test="login-button"]').click();
   });
@@ -18,6 +18,9 @@ describe('Cart Tests', () => {
     // assert
     cy.get('[data-test="shopping-cart-badge"]').should('have.text', '1');
     cy.get('[data-test="inventory-item-name"]').contains('Sauce Labs Backpack').should('be.visible');
+    
+    // evidence
+    cy.screenshot('cart-item-added-successfully');
   });
 
   it('should remove item from cart', () => {
@@ -30,6 +33,9 @@ describe('Cart Tests', () => {
 
     // assert
     cy.get('[data-test="shopping-cart-badge"]').should('not.exist');
+
+    // evidence
+    cy.screenshot('cart-item-removed-from-cart-page');
   });
 
   it('should increment cart badge when adding multiple items', () => {
@@ -42,6 +48,9 @@ describe('Cart Tests', () => {
 
     // assert
     cy.get('[data-test="shopping-cart-badge"]').should('have.text', '2');
+
+    // evidence
+    cy.screenshot('cart-badge-multiple-items');
   });
 
   it('should change button text to "Remove" after adding item to cart', () => {
@@ -53,7 +62,11 @@ describe('Cart Tests', () => {
 
     // assert
     cy.get('[data-test="remove-sauce-labs-backpack"]').should('be.visible');
+
+    // evidence
+    cy.screenshot('cart-button-state-changed-to-remove');
   });
+
   it('should remove item directly from the product page', () => {
     // arrange
     // (already performed in beforeEach)
@@ -65,5 +78,8 @@ describe('Cart Tests', () => {
     // assert
     cy.get('[data-test="shopping-cart-badge"]').should('not.exist');
     cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').should('be.visible');
-  })
+
+    // evidence
+    cy.screenshot('cart-item-removed-from-products-page');
+  });
 });
