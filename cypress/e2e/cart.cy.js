@@ -1,9 +1,9 @@
 describe('Cart Tests', () => {
   beforeEach(() => {
     // arrange (global setup)
-    cy.visit('https://www.saucedemo.com/');
-    cy.get('[data-test="username"]').type('problem_user');
-    cy.get('[data-test="password"]').type('secret_sauce');
+    cy.visit('/');
+    cy.get('[data-test="username"]').type(Cypress.env('CURRENT_USER'));
+    cy.get('[data-test="password"]').type(Cypress.env('DEFAULT_PASSWORD'));
     cy.get('[data-test="login-button"]').click();
   });
 

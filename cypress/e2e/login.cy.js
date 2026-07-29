@@ -1,7 +1,7 @@
 describe('Login Tests', () => {
   beforeEach(() => {
     // arrange (global setup)
-    cy.visit('https://www.saucedemo.com/');
+    cy.visit('/');
   });
 
   it('should login with valid credentials', () => {
@@ -9,8 +9,8 @@ describe('Login Tests', () => {
     // (already performed in beforeEach)
 
     // act
-    cy.get('[data-test="username"]').type('standard_user');
-    cy.get('[data-test="password"]').type('secret_sauce');
+    cy.get('[data-test="username"]').type(Cypress.env('CURRENT_USER'));
+    cy.get('[data-test="password"]').type(Cypress.env('DEFAULT_PASSWORD'));
     cy.get('[data-test="login-button"]').click();
 
     // assert
@@ -19,7 +19,7 @@ describe('Login Tests', () => {
     // evidence
     cy.screenshot('login-success');
   });
-
+  
   it('should not login with invalid credentials', () => {
     // arrange
     // (already performed in beforeEach)
