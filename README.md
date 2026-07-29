@@ -135,11 +135,9 @@ cypress/reports/html/index.html
 
 ## 👤 Author
 
-**Klismman** — QA Automation Engineer
+**Klismam** — QA Automation Engineer
 
 * **LinkedIn:** [klismam-monteiro](https://www.linkedin.com/in/klismam-monteiro-17bb37201)
 * **GitHub:** [@Kal9941](https://www.google.com/search?q=https://github.com/Kal9941)
 
 ```
-
----
