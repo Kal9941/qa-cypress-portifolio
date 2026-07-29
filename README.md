@@ -63,7 +63,7 @@ Ensure you have **Node.js** (v18 or higher) and **Git** installed on your machin
 Clone the repository and install the required dependencies:
 
 ```bash
-git clone [https://github.com/Kal9941/qa-cypress-portfolio.git](https://github.com/Kal9941/qa-cypress-portfolio.git)
+git clone https://github.com/Kal9941/qa-cypress-portfolio.git
 cd qa-cypress-portfolio
 npm install
 
@@ -138,8 +138,8 @@ cypress/reports/html/index.html
 **Klismman** — QA Automation Engineer
 
 * **LinkedIn:** [klismam-monteiro](https://www.linkedin.com/in/klismam-monteiro-17bb37201)
-* **GitHub:** [@Kal9941](https://github.com/Kal9941)
+* **GitHub:** [@Kal9941](https://www.google.com/search?q=https://github.com/Kal9941)
 
 ```
 
-```
+---
