@@ -11,7 +11,7 @@
 > 2. On the right side of the page, click the **Run workflow** button.
 > 3. Select the desired branch (`main`) and confirm by clicking **Run workflow**.
 
-This repository contains an end-to-end (E2E) automated testing suite built with **Cypress**, **JavaScript**, **cypress-mochawesome-reporter**, and **GitHub Actions**. The test suite validates critical user journeys, edge cases, and security scenarios for the [SauceDemo](https://www.saucedemo.com/) e-commerce platform.
+This repository contains a full-stack automated testing suite built with **Cypress**, **JavaScript**, **cypress-mochawesome-reporter**, and **GitHub Actions**. The suite validates critical user journeys, edge cases, security scenarios, and REST API endpoints using the **Page Object Model (POM)** architecture.
 
 ---
 
@@ -19,9 +19,12 @@ This repository contains an end-to-end (E2E) automated testing suite built with 
 
 * **Authentication Module:** Validates successful logins, invalid credentials, empty fields, edge cases, and security vulnerabilities (SQL Injection, XSS, and long inputs).
 * **Cart Module:** Validates adding/removing single and multiple items, verifying cart badge counters, and button state transitions.
-* **Environment Configuration:** Centralized global environment variables (`baseUrl`, user profiles, credentials) configured directly within `cypress.config.js` for clean and maintainable test scripts.
-* **Continuous Integration (CI/CD):** Automated pipeline running on **GitHub Actions** triggered on push and pull requests, pinned with Node.js v24 for optimal stability.
-* **Automated Reporting & Artifacts:** Generates clean HTML/JUnit reports with visual charts and embedded screenshots for test execution evidence, automatically archived in GitHub Actions artifacts.
+* **Checkout Module:** Validates complete e-commerce checkout flow from product selection to order confirmation and form validation errors.
+* **REST API Module:** Validates HTTP CRUD methods (`GET`, `POST`, `PUT`, `DELETE`), response status codes, payload structures, and response headers on backend endpoints.
+* **Page Object Model (POM):** Maintainable architecture separating UI element locators from test assertion logic inside dedicated page objects.
+* **Environment Configuration:** Centralized global environment variables (`baseUrl`, user profiles, credentials) configured directly within `cypress.config.js`.
+* **Continuous Integration (CI/CD):** Automated pipeline running on **GitHub Actions** triggered on push, pull requests, or manual dispatches.
+* **Automated ISO Timestamped Reporting:** Generates clean HTML/JUnit reports with ISO 8601 timestamps (`report_YYYY-MM-DD_HH-mm-ss`), visual charts, and embedded screenshots automatically archived in GitHub Actions artifacts.
 * **Clean Workspace:** Automated pre-test scripts (`rimraf`) that clear old evidence (screenshots, videos, reports) before every execution run.
 
 ---
@@ -29,9 +32,11 @@ This repository contains an end-to-end (E2E) automated testing suite built with 
 ## 🛠️ Tech Stack
 
 * **Framework:** [Cypress](https://www.cypress.io/)
-* **Language:** JavaScript
+* **Architecture:** Page Object Model (POM)
+* **Language:** JavaScript (Node.js)
 * **CI/CD:** GitHub Actions
 * **Reporting:** `cypress-mochawesome-reporter`, `mocha-junit-reporter`
+* **Target Apps:** [SauceDemo](https://www.saucedemo.com/) (Web E2E) & [JSONPlaceholder](https://jsonplaceholder.typicode.com) (REST API)
 * **Utility Tools:** `@faker-js/faker`, `dotenv`, `rimraf`
 * **Performance Testing:** `k6` *(planned integration)*
 
@@ -46,7 +51,13 @@ This repository contains an end-to-end (E2E) automated testing suite built with 
 ├── cypress/
 │   ├── e2e/
 │   │   ├── 1.login.cy.js          # Authentication & Security Tests
-│   │   └── 2.cart.cy.js           # Shopping Cart Tests
+│   │   ├── 2.cart.cy.js           # Shopping Cart Tests
+│   │   ├── 3.checkout.cy.js       # End-to-End Checkout Tests
+│   │   └── 4.user_api.cy.js       # REST API Integration Tests
+│   ├── pages/                     # Page Object Model (POM) Classes
+│   │   ├── 1.LoginPage.js
+│   │   ├── 2.CartPage.js
+│   │   └── 3.CheckoutPage.js
 │   ├── fixtures/                  # Static Test Data
 │   ├── reports/                   # Generated Execution Reports
 │   └── support/                   # Commands & Configuration
@@ -71,8 +82,8 @@ Ensure you have **Node.js** (v18 or higher) and **Git** installed on your machin
 Clone the repository and install the required dependencies:
 
 ```bash
-git clone [https://github.com/Kal9941/qa-cypress-portfolio.git](https://github.com/Kal9941/qa-cypress-portfolio.git)
-cd qa-cypress-portfolio
+git clone [https://github.com/Kal9941/qa-cypress-portifolio.git](https://github.com/Kal9941/qa-cypress-portifolio.git)
+cd qa-cypress-portifolio
 npm install
 
 ```
@@ -81,9 +92,9 @@ npm install
 
 ## 🧪 Running the Tests
 
-### Execute in Headless Mode (CLI)
+### Execute All Test Suites (CLI)
 
-Runs all test suites, generates HTML reports, and captures screenshots automatically.
+Runs all test suites (Web E2E & REST API), generates timestamped HTML reports, and captures screenshots automatically:
 
 ```bash
 npm test
@@ -91,6 +102,13 @@ npm test
 ```
 
 > **Note:** Running `npm test` automatically triggers a pre-test script (`rimraf`) that purges previous execution reports and screenshots to ensure a fresh environment.
+
+### Run Specific Test File
+
+```bash
+npx cypress run --spec "cypress/e2e/4.user_api.cy.js"
+
+```
 
 ### Run with Custom User Environment
 
@@ -114,30 +132,32 @@ npx cypress open
 
 ## ⚙️ CI/CD Pipeline (GitHub Actions)
 
-The repository uses GitHub Actions (`.github/workflows/cypress.yml`) to automatically execute the Cypress test suite upon every push or pull request to the `main`/`master` branch.
+The repository uses GitHub Actions (`.github/workflows/cypress.yml`) to automatically execute the Cypress test suite upon every push or pull request to the `main` branch.
 
-* **Node Version:** Pinned to `24` for runtime compatibility.
-* **Artifact Retention:** Generates and uploads test reports under the Actions **Artifacts** section after every run.
+* **Node Version:** Pinned to `24` for runtime stability.
+* **Artifact Retention:** Generates and uploads test reports and screenshots under the Actions **Artifacts** section after every run.
 
 ---
 
 ## 📊 Test Reports
 
-After running `npm test`, the HTML test report including screenshots and execution metrics will be automatically generated inside:
+After running `npm test`, individual HTML test reports with international ISO 8601 timestamps (e.g., `report_2026-07-31_14-30-00.html`), including embedded screenshots and execution metrics, will be automatically generated inside:
 
 ```text
-cypress/reports/html/index.html
+cypress/reports/html/
 
 ```
 
 ---
 
-## 🔮 Future Improvements
+## 🔮 Roadmap & Future Improvements
 
-* [ ] Add API test suite for SauceDemo endpoints
-* [x] Integrate GitHub Actions for continuous testing (CI/CD pipeline)
-* [ ] Add performance test scripts using `k6`
-* [ ] Implement BDD scenarios using `@badeball/cypress-cucumber-preprocessor`
+* [x] Complete Web E2E coverage (Login, Cart, Checkout) & REST API test suite (v1.0)
+* [x] Implement Page Object Model (POM) architecture (v1.0)
+* [x] Integrate GitHub Actions CI/CD pipeline (v1.0)
+* [ ] Implement BDD scenarios using `@badeball/cypress-cucumber-preprocessor` (v2.0)
+* [ ] Add dynamic test data generation using `@faker-js/faker` (v2.0)
+* [ ] Add performance & load test scripts using `k6` (v3.0)
 
 ---
 
@@ -147,7 +167,5 @@ cypress/reports/html/index.html
 
 * **LinkedIn:** [klismam-monteiro](https://www.linkedin.com/in/klismam-monteiro-17bb37201)
 * **GitHub:** [@Kal9941](https://www.google.com/search?q=https://github.com/Kal9941)
-
-```
 
 ---
