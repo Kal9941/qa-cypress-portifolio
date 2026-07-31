@@ -1,5 +1,11 @@
-```markdown
 # Cypress E2E Automation Portfolio
+
+[![Cypress Tests Pipeline](https://github.com/Kal9941/qa-cypress-portfolio/actions/workflows/cypress.yml/badge.svg)](https://github.com/Kal9941/qa-cypress-portfolio/actions)
+
+> **Como disparar uma nova execução no GitHub Actions:**
+> 1. Clique no badge acima para ir direto para a aba [Actions](https://github.com/Kal9941/qa-cypress-portfolio/actions).
+> 2. No menu lateral esquerdo, clique em **Cypress E2E Tests Pipeline**.
+> 3. Clique no botão **Run workflow** do lado direito, escolha a branch (`main`) e confirme em **Run workflow**.
 
 This repository contains an end-to-end (E2E) automated testing suite built with **Cypress**, **JavaScript**, **cypress-mochawesome-reporter**, and **GitHub Actions**. The test suite validates critical user journeys, edge cases, and security scenarios for the [SauceDemo](https://www.saucedemo.com/) e-commerce platform.
 
@@ -10,7 +16,7 @@ This repository contains an end-to-end (E2E) automated testing suite built with 
 * **Authentication Module:** Validates successful logins, invalid credentials, empty fields, edge cases, and security vulnerabilities (SQL Injection, XSS, and long inputs).
 * **Cart Module:** Validates adding/removing single and multiple items, verifying cart badge counters, and button state transitions.
 * **Environment Configuration:** Centralized global environment variables (`baseUrl`, user profiles, credentials) configured directly within `cypress.config.js` for clean and maintainable test scripts.
-* **Continuous Integration (CI/CD):** Automated pipeline running on **GitHub Actions** triggered on push and pull requests, pinned with Node.js v18 for optimal stability.
+* **Continuous Integration (CI/CD):** Automated pipeline running on **GitHub Actions** triggered on push and pull requests, pinned with Node.js v24 for optimal stability.
 * **Automated Reporting & Artifacts:** Generates clean HTML/JUnit reports with visual charts and embedded screenshots for test execution evidence, automatically archived in GitHub Actions artifacts.
 * **Clean Workspace:** Automated pre-test scripts (`rimraf`) that clear old evidence (screenshots, videos, reports) before every execution run.
 
@@ -63,7 +69,7 @@ Ensure you have **Node.js** (v18 or higher) and **Git** installed on your machin
 Clone the repository and install the required dependencies:
 
 ```bash
-git clone https://github.com/Kal9941/qa-cypress-portfolio.git
+git clone [https://github.com/Kal9941/qa-cypress-portfolio.git](https://github.com/Kal9941/qa-cypress-portfolio.git)
 cd qa-cypress-portfolio
 npm install
 
@@ -108,7 +114,7 @@ npx cypress open
 
 The repository uses GitHub Actions (`.github/workflows/cypress.yml`) to automatically execute the Cypress test suite upon every push or pull request to the `main`/`master` branch.
 
-* **Node Version:** Pinned to `18.18.0` for runtime compatibility.
+* **Node Version:** Pinned to `24` for runtime compatibility.
 * **Artifact Retention:** Generates and uploads test reports under the Actions **Artifacts** section after every run.
 
 ---
@@ -135,9 +141,11 @@ cypress/reports/html/index.html
 
 ## 👤 Author
 
-**Klismam** — QA Automation Engineer
+**Klismam Monteiro** — QA Automation Engineer
 
 * **LinkedIn:** [klismam-monteiro](https://www.linkedin.com/in/klismam-monteiro-17bb37201)
 * **GitHub:** [@Kal9941](https://www.google.com/search?q=https://github.com/Kal9941)
 
 ```
+
+---
