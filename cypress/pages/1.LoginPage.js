@@ -11,8 +11,9 @@ class LoginPage {
   }
 
   login(username, password) {
-    this.elements.usernameInput().type(username);
-    this.elements.passwordInput().type(password);
+    this.elements.usernameInput().clear().type(username);
+    // Avoid printing passwords in Cypress command log
+    this.elements.passwordInput().clear().type(password, { log: false });
     this.elements.loginButton().click();
   }
 }

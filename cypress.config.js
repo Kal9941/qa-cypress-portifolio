@@ -25,15 +25,17 @@ module.exports = defineConfig({
   },
   chromeWebSecurity: false,
   e2e: {
-    baseUrl: "https://www.saucedemo.com",
+    baseUrl: process.env.BASE_URL || 'https://www.saucedemo.com',
     env: {
-      // Change here to activate the desired user:
+      // Change here to activate the desired user or override via environment variables
       // Options: 'standard_user', 'locked_out_user', 'problem_user', 'performance_glitch_user'
-      CURRENT_USER: "standard_user", 
-      DEFAULT_PASSWORD: "secret_sauce"
+      CURRENT_USER: process.env.CURRENT_USER || 'standard_user',
+      DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD || 'secret_sauce'
     },
     setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
+      // return the config object for further modifications by Cypress
+      return config;
     },
-  },
+  }, 
 });
