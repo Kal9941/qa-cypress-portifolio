@@ -20,7 +20,6 @@ describe('Shopping Cart & Badge Management Tests', () => {
     // Assert
     cartPage.elements.cartBadge().should('have.text', '1');
     cy.get('[data-test="inventory-item-name"]').should('contain.text', 'Sauce Labs Backpack').and('be.visible');
-    cy.screenshot('cart-item-added-successfully');
   });
 
   it('should remove an item from inside the cart page and clear badge count', () => {
@@ -34,7 +33,6 @@ describe('Shopping Cart & Badge Management Tests', () => {
     // Assert
     cartPage.elements.cartBadge().should('not.exist');
     cy.get('[data-test="inventory-item-name"]').should('not.exist');
-    cy.screenshot('cart-item-removed-from-cart-page');
   });
 
   it('should increment cart badge count accurately when adding multiple items', () => {
@@ -48,7 +46,6 @@ describe('Shopping Cart & Badge Management Tests', () => {
 
     // Assert
     cartPage.elements.cartBadge().should('have.text', '2');
-    cy.screenshot('cart-badge-multiple-items-incremented');
   });
 
   it('should toggle button state to "Remove" after adding an item to the cart', () => {
@@ -61,7 +58,6 @@ describe('Shopping Cart & Badge Management Tests', () => {
 
     // Assert
     cy.get(backpackRemoveButton).should('be.visible').and('have.text', 'Remove');
-    cy.screenshot('cart-button-state-changed-to-remove');
   });
 
   it('should remove an item directly from the inventory page and restore the Add to Cart button', () => {
@@ -76,6 +72,5 @@ describe('Shopping Cart & Badge Management Tests', () => {
     // Assert
     cartPage.elements.cartBadge().should('not.exist');
     cy.get(backpackAddButton).should('be.visible').and('have.text', 'Add to cart');
-    cy.screenshot('cart-item-removed-from-products-page');
   });
 });

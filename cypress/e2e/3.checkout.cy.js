@@ -25,7 +25,6 @@ describe('Checkout Journey Tests', () => {
     checkoutPage.elements.completeHeader()
       .should('be.visible')
       .and('have.text', 'Thank you for your order!');
-    cy.screenshot('checkout-complete-success');
   });
 
   it('should display an error message when submitting empty personal info in checkout', () => {
@@ -41,6 +40,5 @@ describe('Checkout Journey Tests', () => {
     checkoutPage.elements.errorMessage()
       .should('be.visible')
       .and('contain.text', 'Error: First Name is required');
-    cy.screenshot('checkout-error-empty-form');
   });
 });

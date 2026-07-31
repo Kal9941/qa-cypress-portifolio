@@ -12,7 +12,6 @@ describe('API REST - Users Endpoint Tests', () => {
       expect(response.body).to.be.an('array').that.is.not.empty;
       expect(response.body[0]).to.have.property('id');
       expect(response.body[0]).to.have.property('name');
-      cy.screenshot('api-get-users-success');
     });
   });
 
@@ -35,7 +34,6 @@ describe('API REST - Users Endpoint Tests', () => {
       expect(response.body).to.have.property('name', userPayload.name);
       expect(response.body).to.have.property('username', userPayload.username);
       expect(response.body).to.have.property('id');
-      cy.screenshot('api-post-user-success');
     });
   });
 
@@ -56,7 +54,6 @@ describe('API REST - Users Endpoint Tests', () => {
       // Assert
       expect(response.status).to.eq(200);
       expect(response.body).to.have.property('username', updatePayload.username);
-      cy.screenshot('api-put-user-success');
     });
   });
 
@@ -68,7 +65,6 @@ describe('API REST - Users Endpoint Tests', () => {
     }).then((response) => {
       // Assert
       expect(response.status).to.eq(200);
-      cy.screenshot('api-delete-user-success');
     });
   });
 });

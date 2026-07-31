@@ -22,10 +22,11 @@ This repository contains a full-stack automated testing suite built with **Cypre
 * **Checkout Module:** Validates complete e-commerce checkout flow from product selection to order confirmation and form validation errors.
 * **REST API Module:** Validates HTTP CRUD methods (`GET`, `POST`, `PUT`, `DELETE`), response status codes, payload structures, and response headers on backend endpoints.
 * **Page Object Model (POM):** Maintainable architecture separating UI element locators from test assertion logic inside dedicated page objects.
+* **Global Evidence Lifecycle:** Automated `afterEach` hook captures viewport evidence for passed UI tests without polluting test files with manual `cy.screenshot()` commands.
 * **Environment Configuration:** Centralized global environment variables (`baseUrl`, user profiles, credentials) configured directly within `cypress.config.js`.
 * **Continuous Integration (CI/CD):** Automated pipeline running on **GitHub Actions** triggered on push, pull requests, or manual dispatches.
-* **Automated ISO Timestamped Reporting:** Generates clean HTML/JUnit reports with ISO 8601 timestamps (`report_YYYY-MM-DD_HH-mm-ss`), visual charts, and embedded screenshots automatically archived in GitHub Actions artifacts.
-* **Clean Workspace:** Automated pre-test scripts (`rimraf`) that clear old evidence (screenshots, videos, reports) before every execution run.
+* **Automated ISO Timestamped Reporting:** Generates clean HTML/JUnit reports with ISO 8601 timestamps (`report_YYYY-MM-dd_HH-mm-ss`), visual charts, and embedded screenshots automatically archived in GitHub Actions artifacts.
+* **Clean Workspace:** Automated pre-test scripts (`rimraf`) that clear old execution artifacts before every execution run.
 
 ---
 
@@ -60,7 +61,8 @@ This repository contains a full-stack automated testing suite built with **Cypre
 │   │   └── 3.CheckoutPage.js
 │   ├── fixtures/                  # Static Test Data
 │   ├── reports/                   # Generated Execution Reports
-│   └── support/                   # Commands & Configuration
+│   └── support/                   # Commands & Global Screenshot Hook
+│       └── e2e.js
 ├── .gitignore                     # Excluded assets (screenshots, reports, node_modules)
 ├── cypress.config.js              # Cypress & Reporter Configurations
 ├── package-lock.json
@@ -76,6 +78,8 @@ This repository contains a full-stack automated testing suite built with **Cypre
 ### 1. Prerequisites
 
 Ensure you have **Node.js** (v18 or higher) and **Git** installed on your machine.
+
+> **Windows Users Note:** To avoid file-locking timeouts during rapid headless PNG writing, consider adding the project folder as an exclusion in **Windows Defender** (*Virus & threat protection → Manage settings → Exclusions*).
 
 ### 2. Install Project Dependencies
 
@@ -112,23 +116,21 @@ npx cypress run --spec "cypress/e2e/4.user_api.cy.js"
 
 ### Run with Custom User Environment
 
-You can overwrite the active user configured in `cypress.config.js` directly via the terminal or by exporting environment variables. For security and portability the project reads sensitive values from environment variables when available.
+You can overwrite the active user configured in `cypress.config.js` directly via the terminal or by exporting environment variables.
 
 Examples:
 
 ```bash
-# Run with a different Saucedemo user (temporary for this execution)
+# Run with a different Saucedemo user
 npx cypress run --env CURRENT_USER=locked_out_user
 
-# Or export variables in your shell (recommended for local dev)
+# Or export variables in your shell
 export CURRENT_USER=standard_user
 export DEFAULT_PASSWORD=secret_sauce
 npx cypress run
+
 ```
 
-Note: The credentials used here are the public demo accounts provided by Sauce Demo (https://www.saucedemo.com/). They are safe for demonstrations but avoid exposing even demo credentials in public CI logs or screenshots when possible. The test suite suppresses password logging and encourages using environment variables or CI secrets to override defaults.
-
-To make setup easier, copy `.env.example` to `.env` and set your preferred values (do not commit `.env` to Git).
 ### Open Cypress Interactive Runner (UI)
 
 If you prefer debugging tests visually within the Cypress browser wrapper:
@@ -144,7 +146,6 @@ npx cypress open
 
 The repository uses GitHub Actions (`.github/workflows/cypress.yml`) to automatically execute the Cypress test suite upon every push or pull request to the `main` branch.
 
-* **Node Version:** Pinned to `24` for runtime stability.
 * **Artifact Retention:** Generates and uploads test reports and screenshots under the Actions **Artifacts** section after every run.
 
 ---
@@ -176,6 +177,6 @@ cypress/reports/html/
 **Klismam Monteiro** — QA Automation Engineer
 
 * **LinkedIn:** [klismam-monteiro](https://www.linkedin.com/in/klismam-monteiro-17bb37201)
-* **GitHub:** [@Kal9941](https://www.google.com/search?q=https://github.com/Kal9941)
+* **GitHub:** [@Kal9941](https://github.com/Kal9941)
 
----
+```

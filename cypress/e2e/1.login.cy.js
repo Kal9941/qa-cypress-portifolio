@@ -16,7 +16,6 @@ describe('Authentication & Security Tests', () => {
 
     // Assert
     cy.url().should('include', '/inventory.html');
-    cy.screenshot('login-success-valid-credentials');
   });
 
   it('should display an error message when logging in with invalid credentials', () => {
@@ -31,7 +30,6 @@ describe('Authentication & Security Tests', () => {
     loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Username and password do not match any user in this service');
-    cy.screenshot('login-error-invalid-credentials');
   });
 
   it('should display an error message when submitting empty credentials', () => {
@@ -42,7 +40,6 @@ describe('Authentication & Security Tests', () => {
     loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Epic sadface: Username is required');
-    cy.screenshot('login-error-empty-credentials');
   });
 
   it('should display an error message when submitting only the username', () => {
@@ -57,7 +54,6 @@ describe('Authentication & Security Tests', () => {
     loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Epic sadface: Password is required');
-    cy.screenshot('login-error-missing-password');
   });
 
   it('should display an error message when submitting only the password', () => {
@@ -72,7 +68,6 @@ describe('Authentication & Security Tests', () => {
     loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Epic sadface: Username is required');
-    cy.screenshot('login-error-missing-username');
   });
 
   it('should handle special characters input gracefully without breaking the UI', () => {
@@ -84,7 +79,6 @@ describe('Authentication & Security Tests', () => {
 
     // Assert
     loginPage.elements.errorMessage().should('be.visible');
-    cy.screenshot('login-error-special-characters');
   });
 
   it('should prevent SQL Injection attempts and show authorization error', () => {
@@ -96,7 +90,6 @@ describe('Authentication & Security Tests', () => {
 
     // Assert
     loginPage.elements.errorMessage().should('be.visible');
-    cy.screenshot('login-error-sql-injection');
   });
 
   it('should prevent XSS attacks and render script tags as plain text', () => {
@@ -108,7 +101,6 @@ describe('Authentication & Security Tests', () => {
 
     // Assert
     loginPage.elements.errorMessage().should('be.visible');
-    cy.screenshot('login-error-xss-attack');
   });
 
   it('should handle excessively long input payloads gracefully', () => {
@@ -120,7 +112,6 @@ describe('Authentication & Security Tests', () => {
 
     // Assert
     loginPage.elements.errorMessage().should('be.visible');
-    cy.screenshot('login-error-long-credentials');
   });
 
   it('should reject inputs containing only white spaces', () => {
@@ -132,6 +123,5 @@ describe('Authentication & Security Tests', () => {
 
     // Assert
     loginPage.elements.errorMessage().should('be.visible');
-    cy.screenshot('login-error-empty-spaces');
   });
 });

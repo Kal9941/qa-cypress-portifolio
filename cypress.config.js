@@ -18,23 +18,22 @@ module.exports = defineConfig({
       overwrite: false,
       html: true,
       json: true,
-      // Generates reports using international ISO 8601 timestamp format (e.g., report_2026-07-31_14-30-00)
       reportFilename: 'report_[datetime]',
       timestamp: 'yyyy-mm-dd_HH-MM-ss',
     },
   },
   chromeWebSecurity: false,
+  video: false,
+  screenshotOnRunFailure: false, // Prevents duplicate screenshot capturing on test failures
+  screenshotsFolder: 'cypress/screenshots',
   e2e: {
     baseUrl: process.env.BASE_URL || 'https://www.saucedemo.com',
     env: {
-      // Change here to activate the desired user or override via environment variables
-      // Options: 'standard_user', 'locked_out_user', 'problem_user', 'performance_glitch_user'
       CURRENT_USER: process.env.CURRENT_USER || 'standard_user',
       DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD || 'secret_sauce'
     },
     setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
-      // return the config object for further modifications by Cypress
       return config;
     },
   }, 
