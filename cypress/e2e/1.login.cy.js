@@ -1,7 +1,9 @@
+import loginPage from '../pages/1.LoginPage';
+
 describe('Authentication & Security Tests', () => {
   beforeEach(() => {
-    // Arrange: Navigate to the login page before each test execution
-    cy.visit('/');
+    // Arrange: Navigate to login page
+    loginPage.visit();
   });
 
   it('should login successfully with valid credentials', () => {
@@ -10,9 +12,7 @@ describe('Authentication & Security Tests', () => {
     const validPassword = Cypress.env('DEFAULT_PASSWORD');
 
     // Act
-    cy.get('[data-test="username"]').type(validUsername);
-    cy.get('[data-test="password"]').type(validPassword);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.login(validUsername, validPassword);
 
     // Assert
     cy.url().should('include', '/inventory.html');
@@ -25,12 +25,10 @@ describe('Authentication & Security Tests', () => {
     const invalidPassword = 'invalid_password';
 
     // Act
-    cy.get('[data-test="username"]').type(invalidUsername);
-    cy.get('[data-test="password"]').type(invalidPassword);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.login(invalidUsername, invalidPassword);
 
     // Assert
-    cy.get('[data-test="error"]')
+    loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Username and password do not match any user in this service');
     cy.screenshot('login-error-invalid-credentials');
@@ -38,10 +36,10 @@ describe('Authentication & Security Tests', () => {
 
   it('should display an error message when submitting empty credentials', () => {
     // Arrange & Act
-    cy.get('[data-test="login-button"]').click();
+    loginPage.elements.loginButton().click();
 
     // Assert
-    cy.get('[data-test="error"]')
+    loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Epic sadface: Username is required');
     cy.screenshot('login-error-empty-credentials');
@@ -52,11 +50,11 @@ describe('Authentication & Security Tests', () => {
     const usernameOnly = 'standard_user';
 
     // Act
-    cy.get('[data-test="username"]').type(usernameOnly);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.elements.usernameInput().type(usernameOnly);
+    loginPage.elements.loginButton().click();
 
     // Assert
-    cy.get('[data-test="error"]')
+    loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Epic sadface: Password is required');
     cy.screenshot('login-error-missing-password');
@@ -67,11 +65,11 @@ describe('Authentication & Security Tests', () => {
     const passwordOnly = 'secret_sauce';
 
     // Act
-    cy.get('[data-test="password"]').type(passwordOnly);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.elements.passwordInput().type(passwordOnly);
+    loginPage.elements.loginButton().click();
 
     // Assert
-    cy.get('[data-test="error"]')
+    loginPage.elements.errorMessage()
       .should('be.visible')
       .and('contain', 'Epic sadface: Username is required');
     cy.screenshot('login-error-missing-username');
@@ -82,12 +80,10 @@ describe('Authentication & Security Tests', () => {
     const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
 
     // Act
-    cy.get('[data-test="username"]').type(specialChars);
-    cy.get('[data-test="password"]').type(specialChars);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.login(specialChars, specialChars);
 
     // Assert
-    cy.get('[data-test="error"]').should('be.visible');
+    loginPage.elements.errorMessage().should('be.visible');
     cy.screenshot('login-error-special-characters');
   });
 
@@ -96,12 +92,10 @@ describe('Authentication & Security Tests', () => {
     const sqlInjectionPayload = "' OR '1'='1";
 
     // Act
-    cy.get('[data-test="username"]').type(sqlInjectionPayload);
-    cy.get('[data-test="password"]').type(sqlInjectionPayload);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.login(sqlInjectionPayload, sqlInjectionPayload);
 
     // Assert
-    cy.get('[data-test="error"]').should('be.visible');
+    loginPage.elements.errorMessage().should('be.visible');
     cy.screenshot('login-error-sql-injection');
   });
 
@@ -110,12 +104,10 @@ describe('Authentication & Security Tests', () => {
     const xssPayload = '<script>alert("XSS")</script>';
 
     // Act
-    cy.get('[data-test="username"]').type(xssPayload);
-    cy.get('[data-test="password"]').type(xssPayload);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.login(xssPayload, xssPayload);
 
     // Assert
-    cy.get('[data-test="error"]').should('be.visible');
+    loginPage.elements.errorMessage().should('be.visible');
     cy.screenshot('login-error-xss-attack');
   });
 
@@ -124,12 +116,10 @@ describe('Authentication & Security Tests', () => {
     const longString = 'a'.repeat(100);
 
     // Act
-    cy.get('[data-test="username"]').type(longString);
-    cy.get('[data-test="password"]').type(longString);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.login(longString, longString);
 
     // Assert
-    cy.get('[data-test="error"]').should('be.visible');
+    loginPage.elements.errorMessage().should('be.visible');
     cy.screenshot('login-error-long-credentials');
   });
 
@@ -138,12 +128,10 @@ describe('Authentication & Security Tests', () => {
     const emptySpaces = '     ';
 
     // Act
-    cy.get('[data-test="username"]').type(emptySpaces);
-    cy.get('[data-test="password"]').type(emptySpaces);
-    cy.get('[data-test="login-button"]').click();
+    loginPage.login(emptySpaces, emptySpaces);
 
     // Assert
-    cy.get('[data-test="error"]').should('be.visible');
+    loginPage.elements.errorMessage().should('be.visible');
     cy.screenshot('login-error-empty-spaces');
   });
 });

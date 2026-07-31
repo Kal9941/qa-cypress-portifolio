@@ -1,26 +1,24 @@
+import loginPage from '../pages/1.LoginPage';
+import cartPage from '../pages/2.CartPage';
+
 describe('Shopping Cart & Badge Management Tests', () => {
   beforeEach(() => {
-    // Arrange: Perform session authentication and navigate to inventory page before each test
-    const validUsername = Cypress.env('CURRENT_USER');
-    const validPassword = Cypress.env('DEFAULT_PASSWORD');
-
-    cy.visit('/');
-    cy.get('[data-test="username"]').type(validUsername);
-    cy.get('[data-test="password"]').type(validPassword);
-    cy.get('[data-test="login-button"]').click();
+    // Arrange: Perform session authentication using POM
+    loginPage.visit();
+    loginPage.login(Cypress.env('CURRENT_USER'), Cypress.env('DEFAULT_PASSWORD'));
     cy.url().should('include', '/inventory.html');
   });
 
   it('should add an item to the cart and display it in the cart page', () => {
     // Arrange
-    const backpackItemSelector = '[data-test="add-to-cart-sauce-labs-backpack"]';
+    const backpackAddButton = '[data-test="add-to-cart-sauce-labs-backpack"]';
 
     // Act
-    cy.get(backpackItemSelector).click();
-    cy.get('#shopping_cart_container').click();
+    cy.get(backpackAddButton).click();
+    cartPage.openCart();
 
     // Assert
-    cy.get('[data-test="shopping-cart-badge"]').should('have.text', '1');
+    cartPage.elements.cartBadge().should('have.text', '1');
     cy.get('[data-test="inventory-item-name"]').should('contain.text', 'Sauce Labs Backpack').and('be.visible');
     cy.screenshot('cart-item-added-successfully');
   });
@@ -28,13 +26,13 @@ describe('Shopping Cart & Badge Management Tests', () => {
   it('should remove an item from inside the cart page and clear badge count', () => {
     // Arrange
     cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    cy.get('#shopping_cart_container').click();
+    cartPage.openCart();
 
     // Act
-    cy.get('[id="remove-sauce-labs-backpack"]').click();
+    cartPage.elements.removeBackpackButton().click();
 
     // Assert
-    cy.get('[data-test="shopping-cart-badge"]').should('not.exist');
+    cartPage.elements.cartBadge().should('not.exist');
     cy.get('[data-test="inventory-item-name"]').should('not.exist');
     cy.screenshot('cart-item-removed-from-cart-page');
   });
@@ -49,7 +47,7 @@ describe('Shopping Cart & Badge Management Tests', () => {
     cy.get(bikeLightSelector).click();
 
     // Assert
-    cy.get('[data-test="shopping-cart-badge"]').should('have.text', '2');
+    cartPage.elements.cartBadge().should('have.text', '2');
     cy.screenshot('cart-badge-multiple-items-incremented');
   });
 
@@ -76,7 +74,7 @@ describe('Shopping Cart & Badge Management Tests', () => {
     cy.get(backpackRemoveButton).click();
 
     // Assert
-    cy.get('[data-test="shopping-cart-badge"]').should('not.exist');
+    cartPage.elements.cartBadge().should('not.exist');
     cy.get(backpackAddButton).should('be.visible').and('have.text', 'Add to cart');
     cy.screenshot('cart-item-removed-from-products-page');
   });
