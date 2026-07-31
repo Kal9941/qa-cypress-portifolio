@@ -14,6 +14,13 @@ module.exports = defineConfig({
       embeddedScreenshots: true,
       inlineAssets: true,
       saveAllAttempts: false,
+      reportDir: 'cypress/reports/html',
+      overwrite: false,
+      html: true,
+      json: true,
+      // Generates reports using international ISO 8601 timestamp format (e.g., report_2026-07-31_14-30-00)
+      reportFilename: 'report_[datetime]',
+      timestamp: 'yyyy-mm-dd_HH-MM-ss',
     },
   },
   chromeWebSecurity: false,

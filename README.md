@@ -45,10 +45,8 @@ This repository contains an end-to-end (E2E) automated testing suite built with 
 │       └── cypress.yml            # GitHub Actions CI/CD Pipeline
 ├── cypress/
 │   ├── e2e/
-│   │   ├── auth/
-│   │   │   └── login.cy.js        # Login & Security Tests
-│   │   └── cart/
-│   │       └── cart.cy.js         # Shopping Cart Tests
+│   │   ├── 1.login.cy.js          # Authentication & Security Tests
+│   │   └── 2.cart.cy.js           # Shopping Cart Tests
 │   ├── fixtures/                  # Static Test Data
 │   ├── reports/                   # Generated Execution Reports
 │   └── support/                   # Commands & Configuration
