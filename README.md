@@ -1,11 +1,15 @@
 # Cypress E2E Automation Portfolio
 
-[![Cypress Tests Pipeline](https://github.com/Kal9941/qa-cypress-portfolio/actions/workflows/cypress.yml/badge.svg)](https://github.com/Kal9941/qa-cypress-portfolio/actions)
+<p align="left">
+  <a href="https://github.com/Kal9941/qa-cypress-portifolio/actions/workflows/cypress.yml" target="_blank" style="text-decoration: none;">
+    <img src="https://img.shields.io/github/actions/workflow/status/Kal9941/qa-cypress-portifolio/cypress.yml?branch=main&label=Cypress%20Tests%20Pipeline&logo=github&style=for-the-badge" alt="Cypress Tests Pipeline Status" />
+  </a>
+</p>
 
-> **Como disparar uma nova execução no GitHub Actions:**
-> 1. Clique no badge acima para ir direto para a aba [Actions](https://github.com/Kal9941/qa-cypress-portfolio/actions).
-> 2. No menu lateral esquerdo, clique em **Cypress E2E Tests Pipeline**.
-> 3. Clique no botão **Run workflow** do lado direito, escolha a branch (`main`) e confirme em **Run workflow**.
+> **How to trigger a new execution in GitHub Actions:**
+> 1. Click the button above to go directly to the **[Actions/Cypress E2E Tests Pipeline](https://github.com/Kal9941/qa-cypress-portifolio/actions/workflows/cypress.yml)** tab.
+> 2. On the right side of the page, click the **Run workflow** button.
+> 3. Select the desired branch (`main`) and confirm by clicking **Run workflow**.
 
 This repository contains an end-to-end (E2E) automated testing suite built with **Cypress**, **JavaScript**, **cypress-mochawesome-reporter**, and **GitHub Actions**. The test suite validates critical user journeys, edge cases, and security scenarios for the [SauceDemo](https://www.saucedemo.com/) e-commerce platform.
 
