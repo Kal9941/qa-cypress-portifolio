@@ -10,9 +10,9 @@ class CheckoutPage {
   };
 
   fillInformation(firstName, lastName, postalCode) {
-    this.elements.firstNameInput().type(firstName);
-    this.elements.lastNameInput().type(lastName);
-    this.elements.postalCodeInput().type(postalCode);
+    this.elements.firstNameInput().clear().type(firstName);
+    this.elements.lastNameInput().clear().type(lastName);
+    this.elements.postalCodeInput().clear().type(postalCode);
   }
 
   clickContinue() {

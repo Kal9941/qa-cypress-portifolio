@@ -112,13 +112,23 @@ npx cypress run --spec "cypress/e2e/4.user_api.cy.js"
 
 ### Run with Custom User Environment
 
-You can overwrite the active user configured in `cypress.config.js` directly via the terminal:
+You can overwrite the active user configured in `cypress.config.js` directly via the terminal or by exporting environment variables. For security and portability the project reads sensitive values from environment variables when available.
+
+Examples:
 
 ```bash
+# Run with a different Saucedemo user (temporary for this execution)
 npx cypress run --env CURRENT_USER=locked_out_user
 
+# Or export variables in your shell (recommended for local dev)
+export CURRENT_USER=standard_user
+export DEFAULT_PASSWORD=secret_sauce
+npx cypress run
 ```
 
+Note: The credentials used here are the public demo accounts provided by Sauce Demo (https://www.saucedemo.com/). They are safe for demonstrations but avoid exposing even demo credentials in public CI logs or screenshots when possible. The test suite suppresses password logging and encourages using environment variables or CI secrets to override defaults.
+
+To make setup easier, copy `.env.example` to `.env` and set your preferred values (do not commit `.env` to Git).
 ### Open Cypress Interactive Runner (UI)
 
 If you prefer debugging tests visually within the Cypress browser wrapper:

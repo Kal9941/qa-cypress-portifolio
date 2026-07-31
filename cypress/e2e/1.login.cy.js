@@ -50,7 +50,7 @@ describe('Authentication & Security Tests', () => {
     const usernameOnly = 'standard_user';
 
     // Act
-    loginPage.elements.usernameInput().type(usernameOnly);
+    loginPage.elements.usernameInput().clear().type(usernameOnly);
     loginPage.elements.loginButton().click();
 
     // Assert
@@ -65,7 +65,7 @@ describe('Authentication & Security Tests', () => {
     const passwordOnly = 'secret_sauce';
 
     // Act
-    loginPage.elements.passwordInput().type(passwordOnly);
+    loginPage.elements.passwordInput().clear().type(passwordOnly, { log: false });
     loginPage.elements.loginButton().click();
 
     // Assert
