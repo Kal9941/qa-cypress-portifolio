@@ -1,5 +1,5 @@
-import loginPage from '../pages/1.LoginPage';
-import cartPage from '../pages/2.CartPage';
+import loginPage from '../../pages/1.LoginPage';
+import cartPage from '../../pages/2.CartPage';
 
 describe('Shopping Cart & Badge Management Tests', () => {
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import loginPage from '../pages/1.LoginPage';
+import loginPage from '../../pages/1.LoginPage';
 
 describe('Authentication & Security Tests', () => {
   beforeEach(() => {

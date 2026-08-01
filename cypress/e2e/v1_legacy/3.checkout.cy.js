@@ -1,6 +1,6 @@
-import loginPage from '../pages/1.LoginPage';
-import cartPage from '../pages/2.CartPage';
-import checkoutPage from '../pages/3.CheckoutPage';
+import loginPage from '../../pages/1.LoginPage';
+import cartPage from '../../pages/2.CartPage';
+import checkoutPage from '../../pages/3.CheckoutPage';
 
 describe('Checkout Journey Tests', () => {
   beforeEach(() => {

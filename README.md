@@ -11,21 +11,23 @@
 > 2. On the right side of the page, click the **Run workflow** button.
 > 3. Select the desired branch (`main`) and confirm by clicking **Run workflow**.
 
-This repository contains a full-stack automated testing suite built with **Cypress**, **JavaScript**, **cypress-mochawesome-reporter**, and **GitHub Actions**. The suite validates critical user journeys, edge cases, security scenarios, and REST API endpoints using the **Page Object Model (POM)** architecture.
+This repository contains a full-stack automated testing suite built with **Cypress**, **JavaScript**, **cypress-mochawesome-reporter**, and **GitHub Actions**. The suite validates critical user journeys, edge cases, security scenarios, and REST API endpoints using the **Page Object Model (POM)** and **Behavior-Driven Development (BDD)** architectures.
 
 ---
 
 ## 🚀 Features & Scope
 
+* **Behavior-Driven Development (BDD):** Test scenarios written in Gherkin (`.feature`) using `@badeball/cypress-cucumber-preprocessor`, bridging the gap between technical and business requirements.
+* **Dynamic Data Generation:** Integration with `@faker-js/faker` to generate random, realistic test data (names, emails, zip codes) for UI checkout and API payloads, ensuring robust and non-deterministic testing.
 * **Authentication Module:** Validates successful logins, invalid credentials, empty fields, edge cases, and security vulnerabilities (SQL Injection, XSS, and long inputs).
 * **Cart Module:** Validates adding/removing single and multiple items, verifying cart badge counters, and button state transitions.
 * **Checkout Module:** Validates complete e-commerce checkout flow from product selection to order confirmation and form validation errors.
-* **REST API Module:** Validates HTTP CRUD methods (`GET`, `POST`, `PUT`, `DELETE`), response status codes, payload structures, and response headers on backend endpoints.
+* **REST API Module:** Validates HTTP CRUD methods (`GET`, `POST`, `PUT`, `DELETE`), response status codes, payload structures, and response headers on backend endpoints using Cypress aliases.
 * **Page Object Model (POM):** Maintainable architecture separating UI element locators from test assertion logic inside dedicated page objects.
 * **Global Evidence Lifecycle:** Automated `afterEach` hook captures viewport evidence for passed UI tests without polluting test files with manual `cy.screenshot()` commands.
 * **Environment Configuration:** Centralized global environment variables (`baseUrl`, user profiles, credentials) configured directly within `cypress.config.js`.
 * **Continuous Integration (CI/CD):** Automated pipeline running on **GitHub Actions** triggered on push, pull requests, or manual dispatches.
-* **Automated ISO Timestamped Reporting:** Generates clean HTML/JUnit reports with ISO 8601 timestamps (`report_YYYY-MM-dd_HH-mm-ss`), visual charts, and embedded screenshots automatically archived in GitHub Actions artifacts.
+* **Automated ISO Timestamped Reporting:** Generates clean HTML/JUnit reports with ISO 8601 timestamps (`report_YYYY-MM-dd_HH-mm-ss`), visual charts, and embedded screenshots automatically archived in GitHub Actions artifacts (Source code blocks disabled for cleaner business reporting).
 * **Clean Workspace:** Automated pre-test scripts (`rimraf`) that clear old execution artifacts before every execution run.
 
 ---
@@ -33,12 +35,12 @@ This repository contains a full-stack automated testing suite built with **Cypre
 ## 🛠️ Tech Stack
 
 * **Framework:** [Cypress](https://www.cypress.io/)
-* **Architecture:** Page Object Model (POM)
+* **Architecture:** Page Object Model (POM) & BDD (Cucumber)
 * **Language:** JavaScript (Node.js)
 * **CI/CD:** GitHub Actions
 * **Reporting:** `cypress-mochawesome-reporter`, `mocha-junit-reporter`
 * **Target Apps:** [SauceDemo](https://www.saucedemo.com/) (Web E2E) & [JSONPlaceholder](https://jsonplaceholder.typicode.com) (REST API)
-* **Utility Tools:** `@faker-js/faker`, `dotenv`, `rimraf`
+* **Utility Tools:** `@faker-js/faker`, `@badeball/cypress-cucumber-preprocessor`, `dotenv`, `rimraf`, `esbuild`
 * **Performance Testing:** `k6` *(planned integration)*
 
 ---
@@ -51,19 +53,22 @@ This repository contains a full-stack automated testing suite built with **Cypre
 │       └── cypress.yml            # GitHub Actions CI/CD Pipeline
 ├── cypress/
 │   ├── e2e/
-│   │   ├── 1.login.cy.js          # Authentication & Security Tests
-│   │   ├── 2.cart.cy.js           # Shopping Cart Tests
-│   │   ├── 3.checkout.cy.js       # End-to-End Checkout Tests
-│   │   └── 4.user_api.cy.js       # REST API Integration Tests
+│   │   ├── v1_legacy/             # Preserved v1.0 traditional Cypress specs (.cy.js)
+│   │   ├── 1.login.feature        # BDD Authentication & Security Tests
+│   │   ├── 2.cart.feature         # BDD Shopping Cart Tests
+│   │   ├── 3.checkout.feature     # BDD End-to-End Checkout Tests
+│   │   └── 4.user_api.feature     # BDD REST API Integration Tests
 │   ├── pages/                     # Page Object Model (POM) Classes
 │   │   ├── 1.LoginPage.js
 │   │   ├── 2.CartPage.js
 │   │   └── 3.CheckoutPage.js
 │   ├── fixtures/                  # Static Test Data
 │   ├── reports/                   # Generated Execution Reports
-│   └── support/                   # Commands & Global Screenshot Hook
+│   └── support/                   # Commands & Global Hooks
+│       ├── step_definitions/      # Gherkin Step Definitions mapping to UI/API actions
 │       └── e2e.js
 ├── .gitignore                     # Excluded assets (screenshots, reports, node_modules)
+├── .cucumberrc.json               # Cucumber Configuration mapping step definitions
 ├── cypress.config.js              # Cypress & Reporter Configurations
 ├── package-lock.json
 ├── package.json                   # Dependencies & Executable Scripts
@@ -98,7 +103,7 @@ npm install
 
 ### Execute All Test Suites (CLI)
 
-Runs all test suites (Web E2E & REST API), generates timestamped HTML reports, and captures screenshots automatically:
+Runs all test suites (Web E2E & REST API), generates timestamped HTML reports, and captures screenshots automatically. The default configuration executes the v2.0 BDD (`.feature`) files and ignores the legacy folder.
 
 ```bash
 npm test
@@ -110,7 +115,16 @@ npm test
 ### Run Specific Test File
 
 ```bash
-npx cypress run --spec "cypress/e2e/4.user_api.cy.js"
+npx cypress run --spec "cypress/e2e/4.user_api.feature"
+
+```
+
+### Run Legacy v1.0 Suite
+
+To run the previous traditional Cypress specification architecture:
+
+```bash
+npx cypress run --spec "cypress/e2e/v1_legacy/*.cy.js"
 
 ```
 
@@ -166,8 +180,8 @@ cypress/reports/html/
 * [x] Complete Web E2E coverage (Login, Cart, Checkout) & REST API test suite (v1.0)
 * [x] Implement Page Object Model (POM) architecture (v1.0)
 * [x] Integrate GitHub Actions CI/CD pipeline (v1.0)
-* [ ] Implement BDD scenarios using `@badeball/cypress-cucumber-preprocessor` (v2.0)
-* [ ] Add dynamic test data generation using `@faker-js/faker` (v2.0)
+* [x] Implement BDD scenarios using `@badeball/cypress-cucumber-preprocessor` (v2.0)
+* [x] Add dynamic test data generation using `@faker-js/faker` (v2.0)
 * [ ] Add performance & load test scripts using `k6` (v3.0)
 
 ---
@@ -178,5 +192,3 @@ cypress/reports/html/
 
 * **LinkedIn:** [klismam-monteiro](https://www.linkedin.com/in/klismam-monteiro-17bb37201)
 * **GitHub:** [@Kal9941](https://github.com/Kal9941)
-
-```
