@@ -1,9 +1,17 @@
 {
+  "name": "qa-cypress-portifolio",
+  "version": "3.0.0",
+  "description": "Cypress E2E Automation & Performance Portfolio",
+  "main": "index.js",
   "scripts": {
     "clean:reports": "rimraf cypress/reports cypress/screenshots cypress/videos",
     "pretest": "npm run clean:reports",
-    "test": "cypress run"
+    "test": "cypress run",
+    "test:performance": "k6 run performance/user_api_load.js"
   },
+  "keywords": [],
+  "author": "Klismam Monteiro",
+  "license": "ISC",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^26.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
