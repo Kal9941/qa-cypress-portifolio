@@ -9,3 +9,6 @@ cypress/downloads/
 # Test Reports (Mochawesome / JUnit)
 cypress/reports/
 cypress/results/
+
+#vscode settings
+.vscode/    
